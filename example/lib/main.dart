@@ -8,7 +8,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_signature_pad/flutter_signature_pad.dart';
 
 void main() async {
-  await SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]);
+  await SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.landscapeLeft]);
   runApp(MyApp());
 }
 
@@ -40,7 +41,8 @@ class _WatermarkPaint extends CustomPainter {
 
   @override
   void paint(ui.Canvas canvas, ui.Size size) {
-    canvas.drawCircle(Offset(size.width / 2, size.height / 2), 10.8, Paint()..color = Colors.blue);
+    canvas.drawCircle(Offset(size.width / 2, size.height / 2), 10.8,
+        Paint()..color = Colors.blue);
   }
 
   @override
@@ -50,7 +52,11 @@ class _WatermarkPaint extends CustomPainter {
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) || other is _WatermarkPaint && runtimeType == other.runtimeType && price == other.price && watermark == other.watermark;
+      identical(this, other) ||
+      other is _WatermarkPaint &&
+          runtimeType == other.runtimeType &&
+          price == other.price &&
+          watermark == other.watermark;
 
   @override
   int get hashCode => price.hashCode ^ watermark.hashCode;
@@ -80,7 +86,11 @@ class _MyHomePageState extends State<MyHomePage> {
               color: Colors.black12,
             ),
           ),
-          _img.buffer.lengthInBytes == 0 ? Container() : LimitedBox(maxHeight: 200.0, child: Image.memory(_img.buffer.asUint8List())),
+          _img.buffer.lengthInBytes == 0
+              ? Container()
+              : LimitedBox(
+                  maxHeight: 200.0,
+                  child: Image.memory(_img.buffer.asUint8List())),
           Column(
             children: <Widget>[
               Row(
@@ -91,12 +101,15 @@ class _MyHomePageState extends State<MyHomePage> {
                       onPressed: () async {
                         //retrieve image data, do whatever you want with it (send to server, save locally...)
 
-                        var data = await sign.getData().toByteData(format: ui.ImageByteFormat.png);
+                        var data = await sign
+                            .getData()
+                            .toByteData(format: ui.ImageByteFormat.png);
                         sign.clear();
                         setState(() {
                           _img = data;
                         });
-                        debugPrint("onPressed " + base64.encode(data.buffer.asUint8List()));
+                        debugPrint("onPressed " +
+                            base64.encode(data.buffer.asUint8List()));
                       },
                       child: Text("Save")),
                   MaterialButton(
@@ -117,7 +130,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   MaterialButton(
                       onPressed: () {
                         setState(() {
-                          color = color == Colors.green ? Colors.red : Colors.green;
+                          color =
+                              color == Colors.green ? Colors.red : Colors.green;
                         });
                         debugPrint("change color");
                       },
@@ -132,7 +146,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           debugPrint("change stroke width to $selection");
                         });
                       },
-                      child: Text("Change stroke width")),
+                      child: Text("Change stroke width ($strokeWidth)")),
                 ],
               ),
             ],
